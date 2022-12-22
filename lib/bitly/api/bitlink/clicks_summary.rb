@@ -7,7 +7,7 @@ module Bitly
       class ClicksSummary
         include Base
 
-        def self.fetch(client:, bitlink:, unit: nil, units: nil, unit_reference: nil, size: nil)
+        def self.fetch(client: nil, bitlink: nil, unit: nil, units: nil, unit_reference: nil, size: nil)
           response = client.request(
             path: "/bitlinks/#{bitlink}/clicks/summary",
             params: {
@@ -25,7 +25,7 @@ module Bitly
         end
         attr_reader(*attributes)
 
-        def initialize(data:, response: nil)
+        def initialize(data: nil, response: nil)
           assign_attributes(data)
           @response = response
         end

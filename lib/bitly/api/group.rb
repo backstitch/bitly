@@ -31,7 +31,7 @@ module Bitly
       #     object or a String representing an organization guid
       #
       # @return [Bitly::API::Group::List]
-      def self.list(client:, organization_guid: nil)
+      def self.list(client: nil, organization_guid: nil)
         params = { "organization_guid" => organization_guid }
         response = client.request(path: "/groups", params: params)
         groups = response.body["groups"].map do |group|
@@ -53,7 +53,7 @@ module Bitly
       # @param guid [String] A group guid
       #
       # @return [Bitly::API::Group]
-      def self.fetch(client:, group_guid:)
+      def self.fetch(client: nil, group_guid: nil)
         response = client.request(path: "/groups/#{group_guid}")
         Group.new(data: response.body, client: client, response: response)
       end
@@ -84,7 +84,7 @@ module Bitly
       # @param organization [Bitly::API::Organization]
       #
       # @return [Bitly::API::Group]
-      def initialize(data:, client:, response: nil, organization: nil)
+      def initialize(data: nil, client: nil, response: nil, organization: nil)
         assign_attributes(data)
         @client = client
         @response = response

@@ -26,7 +26,7 @@ module Bitly
     #   https://bitly.com/a/oauth_apps
     # @return [Bitly::OAuth] An authenticated Bitly::OAuth instance
     # @since 2.0.0
-    def initialize(client_id:, client_secret:)
+    def initialize(client_id: nil, client_secret: nil)
       @client_id = client_id
       @client_secret = client_secret
       @client = OAuth2::Client.new(
@@ -87,14 +87,14 @@ module Bitly
 
     private
 
-    def access_token_from_code(redirect_uri:, code:)
+    def access_token_from_code(redirect_uri: nil, code: nil)
       @client.get_token(
         redirect_uri: redirect_uri,
         code: code
       ).token
     end
 
-    def access_token_from_credentials(username:, password:)
+    def access_token_from_credentials(username: nil, password: nil)
       @client.password.get_token(username, password, {
         headers: {
           "Authorization" => "Basic #{authorization_header}"

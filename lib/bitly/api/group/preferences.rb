@@ -25,7 +25,7 @@ module Bitly
         # @param group_guid [String] The guid of the groups
         #
         # @return [Bitly::API::Group::Preferences]
-        def self.fetch(client:, group_guid:)
+        def self.fetch(client: nil, group_guid: nil)
           response = client.request(path: "/groups/#{group_guid}/preferences")
           new(data: response.body, client: client, response: response)
         end
@@ -41,7 +41,7 @@ module Bitly
         # @param data [Hash<String, String>] The preferences data from the API
         # @param client [Bitly::API::Client] An authorized API client
         # @param response [Bitly::HTTP::Response] The API response object
-        def initialize(data:, client:, response: nil)
+        def initialize(data: nil, client: nil, response: nil)
           assign_attributes(data)
           @client = client
           @response = response
@@ -58,7 +58,7 @@ module Bitly
         #     group
         #
         # @return [Bitly::API::Group::Preferences]
-        def update(domain_preference:)
+        def update(domain_preference: nil)
           @response = @client.request(
             path: "/groups/#{group_guid}/preferences",
             method: "PATCH",

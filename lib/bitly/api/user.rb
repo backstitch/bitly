@@ -26,7 +26,7 @@ module Bitly
       # @param client [Bitly::API::Client] The authorized API client
       #
       # @return [Bitly::API::User]
-      def self.fetch(client:)
+      def self.fetch(client: nil)
         response = client.request(path: "/user")
         new(data: response.body, client: client, response: response)
       end
@@ -55,7 +55,7 @@ module Bitly
       # @param response [Bitly::HTTP::Response] The original HTTP response
       #
       # @return [Bitly::API::User]
-      def initialize(data:, client:, response: nil)
+      def initialize(data: nil, client: nil, response: nil)
         assign_attributes(data)
         @client = client
         @response = response

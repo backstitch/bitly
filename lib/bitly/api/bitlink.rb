@@ -30,7 +30,7 @@ module Bitly
       #     shorten this URL
       #
       # @return [Bitly::API::Bitlink]
-      def self.shorten(client:, long_url:, domain: nil, group_guid: nil)
+      def self.shorten(client: nil, long_url: nil, domain: nil, group_guid: nil)
         response = client.request(
           path: "/shorten",
           method: "POST",
@@ -61,7 +61,7 @@ module Bitly
       # @param deeplinks [Array<Bitly::API::Bitlink::Deeplink>]
       #
       # @return [Bitly::API::Bitlink]
-      def self.create(client:, long_url:, domain: nil, group_guid: nil, title: nil, tags: nil, deeplinks: nil)
+      def self.create(client: nil, long_url: nil, domain: nil, group_guid: nil, title: nil, tags: nil, deeplinks: nil)
         response = client.request(
           path: "/bitlinks",
           method: "POST",
@@ -88,7 +88,7 @@ module Bitly
       # @param bitlink [String] The bitlink you want information about
       #
       # @return [Bitly::API::Bitlink]
-      def self.fetch(client:, bitlink:)
+      def self.fetch(client: nil, bitlink: nil)
         response = client.request(path: "/bitlinks/#{bitlink}")
         new(data: response.body, client: client, response: response)
       end
@@ -104,7 +104,7 @@ module Bitly
       # @param bitlink [String] The bitlink you want information about
       #
       # @return [Bitly::API::Bitlink]
-      def self.expand(client:, bitlink:)
+      def self.expand(client: nil, bitlink: nil)
         response = client.request(path: "/expand", method: "POST", params: { "bitlink_id" => bitlink })
         new(data: response.body, client: client, response: response)
       end
@@ -144,8 +144,8 @@ module Bitly
       #
       # @return [Bitly::API::Bitlink::PaginatedList]
       def self.list(
-        client:,
-        group_guid:,
+        client: nil,
+        group_guid: nil,
         size: nil,
         page: nil,
         keyword: nil,
@@ -213,7 +213,7 @@ module Bitly
       # @param size [Integer] The number of links to be returned. Defaults to 50
       #
       # @returns [Bitly::API::Bitlink::List]
-      def self.sorted_list(client:, group_guid:, sort: "clicks", unit: nil, units: nil, unit_reference: nil, size: nil)
+      def self.sorted_list(client: nil, group_guid: nil, sort: "clicks", unit: nil, units: nil, unit_reference: nil, size: nil)
         params = {
           "unit" => unit,
           "units" => units,
@@ -238,7 +238,7 @@ module Bitly
       attr_reader(*(attributes + time_attributes))
       attr_reader :deeplinks, :clicks
 
-      def initialize(data:, client:, response: nil, clicks: nil)
+      def initialize(data: nil, client: nil, response: nil, clicks: nil)
         assign_attributes(data)
         if data["deeplinks"]
           @deeplinks = data["deeplinks"].map { |data| Deeplink.new(data: data) }

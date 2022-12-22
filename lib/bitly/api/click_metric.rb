@@ -9,7 +9,7 @@ module Bitly
 
       class List < Bitly::API::List
         attr_reader :units, :unit_reference, :unit, :facet
-        def initialize(items:, response:, units:, unit_reference:, unit:, facet:)
+        def initialize(items: nil, response: nil, units: nil, unit_reference: nil, unit: nil, facet: nil)
           super(items: items, response: response)
           @units = units
           # It looks like the API for referrers_by_domain returns the
@@ -26,7 +26,7 @@ module Bitly
 
       class Referrers < Bitly::API::List
         attr_reader :network
-        def initialize(items:, response:, network:)
+        def initialize(items: nil, response: nil, network: nil)
           super(items: items, response: response)
           @network = network
         end
@@ -48,7 +48,7 @@ module Bitly
       # @param size [Integer] The number of links to be returned. Defaults to 50
       #
       # @return [Bitly::API::ClickMetric::List]
-      def self.list_referring_networks(client:, group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def self.list_referring_networks(client: nil, group_guid: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
           path: "/groups/#{group_guid}/referring_networks",
@@ -75,7 +75,7 @@ module Bitly
       # @param size [Integer] The number of links to be returned. Defaults to 50
       #
       # @return [Bitly::API::ClickMetric::List]
-      def self.list_countries_by_group(client:, group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def self.list_countries_by_group(client: nil, group_guid: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
           path: "/groups/#{group_guid}/countries",
@@ -86,7 +86,7 @@ module Bitly
         )
       end
 
-      def self.list_referrers(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def self.list_referrers(client: nil, bitlink: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
           path: "/bitlinks/#{bitlink}/referrers",
@@ -97,7 +97,7 @@ module Bitly
         )
       end
 
-      def self.list_countries_by_bitlink(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def self.list_countries_by_bitlink(client: nil, bitlink: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
           path: "/bitlinks/#{bitlink}/countries",
@@ -108,7 +108,7 @@ module Bitly
         )
       end
 
-      def self.list_referring_domains(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def self.list_referring_domains(client: nil, bitlink: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         list_metrics(
           client: client,
           path: "/bitlinks/#{bitlink}/referring_domains",
@@ -119,7 +119,7 @@ module Bitly
         )
       end
 
-      def self.list_referrers_by_domain(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def self.list_referrers_by_domain(client: nil, bitlink: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         response = client.request(
           path: "/bitlinks/#{bitlink}/referrers_by_domains",
           params: {
@@ -151,13 +151,13 @@ module Bitly
       end
       attr_reader(*attributes)
 
-      def initialize(data:)
+      def initialize(data: nil)
         assign_attributes(data)
       end
 
       private
 
-      def self.list_metrics(client:, path:, unit:, units:, size:, unit_reference:)
+      def self.list_metrics(client: nil, path: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         response = client.request(
           path: path,
           params: {

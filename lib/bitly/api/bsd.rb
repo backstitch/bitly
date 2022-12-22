@@ -14,7 +14,7 @@ module Bitly
       #     bsds = Bitly::API::BSD.list(client: client)
       #
       # @return [Array<String>]
-      def self.list(client:)
+      def self.list(client: nil)
         response = client.request(path: "/bsds")
         bsds = response.body["bsds"]
         List.new(items: bsds, response: response)

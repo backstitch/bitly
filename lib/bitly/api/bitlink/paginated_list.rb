@@ -7,7 +7,7 @@ module Bitly
       class PaginatedList < Bitly::API::List
         attr_reader :next_url, :prev_url, :size, :page, :total
 
-        def initialize(items:, response: , client:)
+        def initialize(items: nil, response: nil, client: nil)
           super(items: items, response: response)
           @client = client
           if response.body["pagination"]
@@ -38,7 +38,7 @@ module Bitly
 
         private
 
-        def get_page(uri:)
+        def get_page(uri: nil)
           response = @client.request(path: uri.path.gsub(/\/v4/, ""), params: CGI.parse(uri.query))
           bitlinks = response.body["links"].map do |link|
             Bitlink.new(data: link, client: @client)

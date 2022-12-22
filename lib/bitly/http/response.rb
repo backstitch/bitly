@@ -33,7 +33,7 @@ module Bitly
       # @param [String] body The body of the response, a String that is valid
       #   JSON and will be parsed
       # @param [Hash] headers The response headers
-      def initialize(status:, body:, headers:, request: nil)
+      def initialize(status: nil, body: nil, headers: nil, request: nil)
         errors = []
         @status = status
         errors << "Status must be a valid HTTP status code. Received #{status}" unless is_status?(status)

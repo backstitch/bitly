@@ -10,7 +10,7 @@ module Bitly
 
         class List < Bitly::API::List
           attr_reader :units, :unit_reference, :unit
-          def initialize(items:, response:, units:, unit_reference:, unit:)
+          def initialize(items: nil, response: nil, units: nil, unit_reference: nil, unit: nil)
             super(items: items, response: response)
             @units = units
             @unit_reference = Time.parse(unit_reference) if unit_reference
@@ -36,7 +36,7 @@ module Bitly
         # @param size [Integer] The number of links to be returned. Defaults to 50
         #
         # @return [Bitly::API::Bitlink::LinkClick::List]
-        def self.list(client:, bitlink:, unit: nil, units: nil, size: nil, unit_reference: nil)
+        def self.list(client: nil, bitlink: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
           response = client.request(
             path: "/bitlinks/#{bitlink}/clicks",
             params: {
@@ -65,7 +65,7 @@ module Bitly
         end
         attr_reader(*(attributes + time_attributes))
 
-        def initialize(data:)
+        def initialize(data: nil)
           assign_attributes(data)
         end
       end

@@ -26,7 +26,7 @@ module Bitly
       # @param client [Bitly::API::Client] An authorized API client
       #
       # @return [Bitly::API::Organization::List]
-      def self.list(client:)
+      def self.list(client: nil)
         response = client.request(path: '/organizations')
         organizations = response.body['organizations'].map do |org|
           Organization.new(data: org, client: client)
@@ -47,7 +47,7 @@ module Bitly
       # @param organization_guid [String] An organization guid
       #
       # @return [Bitly::API::Organization]
-      def self.fetch(client:, organization_guid:)
+      def self.fetch(client: nil, organization_guid: nil)
         response = client.request(path: "/organizations/#{organization_guid}")
         Organization.new(data: response.body, client: client, response: response)
       end
@@ -77,7 +77,7 @@ module Bitly
       #     call
       #
       # @return [Bitly::API::Organization]
-      def initialize(data:, client:, response: nil)
+      def initialize(data: nil, client: nil, response: nil)
         assign_attributes(data)
         @client = client
         @response = response

@@ -27,7 +27,7 @@ module Bitly
       #      shorten counts
       #
       # @return [Bitly::API::ShortenCounts]
-      def self.by_group(client:, group_guid:)
+      def self.by_group(client: nil, group_guid: nil)
         response = client.request(path: "/groups/#{group_guid}/shorten_counts")
         new(data: response.body, response: response)
       end
@@ -44,12 +44,12 @@ module Bitly
       #      you want shorten counts
       #
       # @return [Bitly::API::ShortenCounts]
-      def self.by_organization(client:, organization_guid:)
+      def self.by_organization(client: nil, organization_guid: nil)
         response = client.request(path: "/organizations/#{organization_guid}/shorten_counts")
         new(data: response.body, response: response)
       end
 
-      def initialize(data:, response: nil)
+      def initialize(data: nil, response: nil)
         assign_attributes(data)
         @metrics = data["metrics"].map do |metric|
           Metric.new(metric["key"], metric["value"])

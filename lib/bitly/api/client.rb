@@ -28,7 +28,7 @@ module Bitly
       # @param token [String] An OAuth token for a user authorized with the API.
       #
       # @return [Bitly::API::Client]
-      def initialize(http: Bitly::HTTP::Client.new, token:)
+      def initialize(http: Bitly::HTTP::Client.new, token: nil)
         @http = http
         @token = token
       end
@@ -47,7 +47,7 @@ module Bitly
       # @param headers [Hash<String, String>] Custom headers for the request
       #
       # @return [Bitly::HTTP::Response]
-      def request(path:, method: 'GET', params: {}, headers: {})
+      def request(path: nil, method: 'GET', params: {}, headers: {})
         params = params.select { |k,v| !v.nil? }
         headers = default_headers.merge(headers)
         uri = Bitly::API::BASE_URL.dup
@@ -69,7 +69,7 @@ module Bitly
       # @param group_guid [String] The group you want shorten this URL under
       #
       # @return [Bitly::API::Bitlink]
-      def shorten(long_url:, domain: nil, group_guid: nil)
+      def shorten(long_url: nil, domain: nil, group_guid: nil)
         Bitlink.shorten(client: self, long_url: long_url, domain: domain, group_guid: group_guid)
       end
 
@@ -90,7 +90,7 @@ module Bitly
       # @param deeplinks [Array<Bitly::API::Bitlink::Deeplink>]
       #
       # @return [Bitly::API::Bitlink]
-      def create_bitlink(long_url:, domain: nil, group_guid: nil, title: nil, tags: nil, deeplinks: nil)
+      def create_bitlink(long_url: nil, domain: nil, group_guid: nil, title: nil, tags: nil, deeplinks: nil)
         Bitlink.create(client: self, long_url: long_url, domain: domain, group_guid: group_guid, title: title, tags: tags, deeplinks: deeplinks)
       end
 
@@ -104,7 +104,7 @@ module Bitly
       # @param bitlink [String] The bitlink you want information about
       #
       # @return [Bitly::API::Bitlink]
-      def bitlink(bitlink:)
+      def bitlink(bitlink: nil)
         Bitlink.fetch(client: self, bitlink: bitlink)
       end
 
@@ -118,7 +118,7 @@ module Bitly
       # @param bitlink [String] The bitlink you want information about
       #
       # @return [Bitly::API::Bitlink]
-      def expand(bitlink:)
+      def expand(bitlink: nil)
         Bitlink.expand(client: self, bitlink: bitlink)
       end
 
@@ -149,7 +149,7 @@ module Bitly
       #
       # @returns [Bitly::API::Bitlink::List]
       def sorted_bitlinks(
-        group_guid:,
+        group_guid: nil,
         sort: "clicks",
         unit: nil,
         units: nil,
@@ -192,7 +192,7 @@ module Bitly
       #
       # @returns [Bitly::API::Bitlink]
       def update_bitlink(
-        bitlink:,
+        bitlink: nil,
         archived: nil,
         tags: nil,
         created_at: nil,
@@ -240,7 +240,7 @@ module Bitly
       # @param size [Integer] The number of links to be returned. Defaults to 50
       #
       # @return [Bitly::API::Bitlink::LinkClick::List]
-      def bitlink_clicks(bitlink:, unit: nil, units: nil, unit_reference: nil, size: nil)
+      def bitlink_clicks(bitlink: nil, unit: nil, units: nil, unit_reference: nil, size: nil)
         Bitlink::LinkClick.list(
           client: self,
           bitlink: bitlink,
@@ -273,7 +273,7 @@ module Bitly
       # @param organization_guid [String] An organization guid
       #
       # @return [Bitly::API::Organization]
-      def organization(organization_guid:)
+      def organization(organization_guid: nil)
         Organization.fetch(client: self, organization_guid: organization_guid)
       end
 
@@ -288,7 +288,7 @@ module Bitly
       #      you want shorten counts
       #
       # @return [Bitly::API::ShortenCounts]
-      def organization_shorten_counts(organization_guid:)
+      def organization_shorten_counts(organization_guid: nil)
         Bitly::API::ShortenCounts.by_organization(client: self, organization_guid: organization_guid)
       end
 
@@ -345,7 +345,7 @@ module Bitly
       # @param guid [String] The guid of the group you want.
       #
       # @return [Bitly::API::Group]
-      def group(group_guid:)
+      def group(group_guid: nil)
         Group.fetch(client: self, group_guid: group_guid)
       end
 
@@ -360,7 +360,7 @@ module Bitly
       #      shorten counts.
       #
       # @return [Bitly::API::ShortenCounts]
-      def group_shorten_counts(group_guid:)
+      def group_shorten_counts(group_guid: nil)
         Bitly::API::ShortenCounts.by_group(client: self, group_guid: group_guid)
       end
 
@@ -371,7 +371,7 @@ module Bitly
       # @param group_guid [String] The group's guid
       #
       # @return [Bitly::API::Group::Preferences]
-      def group_preferences(group_guid:)
+      def group_preferences(group_guid: nil)
         Group::Preferences.fetch(client: self, group_guid: group_guid)
       end
 
@@ -384,7 +384,7 @@ module Bitly
       #     group
       #
       # @return [Bitly::API::Group::Preferences]
-      def update_group_preferences(group_guid:, domain_preference:)
+      def update_group_preferences(group_guid: nil, domain_preference: nil)
         group_preferences = Group::Preferences.new(data: { "group_guid" => group_guid }, client: self)
         group_preferences.update(domain_preference: domain_preference)
       end
@@ -402,7 +402,7 @@ module Bitly
       # @param bsds [Array<String>] An array of branded short domains
       #
       # @return [Bitly::API::Group]
-      def update_group(group_guid:, name: nil, organization_guid: nil, bsds: nil)
+      def update_group(group_guid: nil, name: nil, organization_guid: nil, bsds: nil)
         group = Group.new(data: { "guid" => group_guid }, client: self)
         group.update(
           name: name,
@@ -446,7 +446,7 @@ module Bitly
       #
       # @return [Bitly::API::Bitlink::PaginatedList]
       def group_bitlinks(
-        group_guid:,
+        group_guid: nil,
         size: nil,
         page: nil,
         keyword: nil,
@@ -492,7 +492,7 @@ module Bitly
       #     client.delete_group(group_guid: group_guid)
       #
       # @return [Nil]
-      def delete_group(group_guid:)
+      def delete_group(group_guid: nil)
         group = Group.new(data: { "guid" => group_guid }, client: self)
         group.delete
       end
@@ -512,7 +512,7 @@ module Bitly
       # @param size [Integer] The number of links to be returned. Defaults to 50
       #
       # @return [Bitly::API::ClickMetric::List]
-      def group_referring_networks(group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def group_referring_networks(group_guid: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         ClickMetric.list_referring_networks(
           client: self,
           group_guid: group_guid,
@@ -538,7 +538,7 @@ module Bitly
       # @param size [Integer] The number of links to be returned. Defaults to 50
       #
       # @return [Bitly::API::ClickMetric::List]
-      def group_countries(group_guid:, unit: nil, units: nil, size: nil, unit_reference: nil)
+      def group_countries(group_guid: nil, unit: nil, units: nil, size: nil, unit_reference: nil)
         ClickMetric.list_countries_by_group(
           client: self,
           group_guid: group_guid,
@@ -569,7 +569,7 @@ module Bitly
       #     app = client.oauth_app(client_id: "client_id")
       #
       # @return Bitly::API::OAuthApp
-      def oauth_app(client_id:)
+      def oauth_app(client_id: nil)
         OAuthApp.fetch(client: self, client_id: client_id)
       end
 

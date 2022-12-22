@@ -11,12 +11,12 @@ module Bitly
       end
       attr_reader(*attributes)
 
-      def self.fetch(client:, client_id:)
+      def self.fetch(client: nil, client_id: nil)
         response = client.request(path: "/apps/#{client_id}")
         new(data: response.body, client: client, response: response)
       end
 
-      def initialize(data:, client:, response: nil)
+      def initialize(data: nil, client: nil, response: nil)
         assign_attributes(data)
         @client = client
         @response = response

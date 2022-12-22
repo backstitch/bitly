@@ -12,7 +12,7 @@ module Bitly
         end
         attr_reader(*attributes)
 
-        def initialize(data:)
+        def initialize(data: nil)
           assign_attributes(data)
         end
 

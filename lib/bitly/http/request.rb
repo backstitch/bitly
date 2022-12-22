@@ -27,7 +27,7 @@ module Bitly
       # @param [Hash] params The parameters to be sent as part of the request.
       #   GET parameters will be sent as part of the query string and other
       #   methods will be added to the request body.
-      def initialize(uri: , method: "GET", params: {}, headers: {})
+      def initialize(uri: nil, method: "GET", params: {}, headers: {})
         errors = []
         @uri = uri
         errors << "uri must be an object of type URI. Received a #{uri.class}" unless uri.kind_of?(URI)
