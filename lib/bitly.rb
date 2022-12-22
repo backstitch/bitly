@@ -1,8 +1,7 @@
-require 'multi_json'
+# frozen_string_literal: true
 
-require 'bitly/config'
-require 'bitly/utils'
-require 'bitly/client'
-require 'bitly/url'
-require 'bitly/version'
-require 'bitly/v3'
+require "bitly/version"
+require "bitly/error"
+require "bitly/oauth"
+require "bitly/http"
+require "bitly/api"
